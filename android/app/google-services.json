@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "438745673479",
+    "project_id": "the-movies-f68a4",
+    "storage_bucket": "the-movies-f68a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:438745673479:android:430ef3f9e8d77ff9e45fa2",
+        "android_client_info": {
+          "package_name": "dev.widdyjp.the_movies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "438745673479-conhmvaikvo2j0i61bqsjdn73n8ki851.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.widdyjp.the_movies",
+            "certificate_hash": "52500f1b5cb6fbfd809097e886577e85720e8768"
+          }
+        },
+        {
+          "client_id": "438745673479-nt7ugc87bh10c53irtspn6fsd88lgsu1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCuafvpc88msC8RFNpMf-FeZ833yal9cQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "438745673479-nt7ugc87bh10c53irtspn6fsd88lgsu1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "438745673479-bu0564iaqqipa09rhcna9cocf8qvojus.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.widdyjp.theMovies"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
