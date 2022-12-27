@@ -22,4 +22,9 @@ class AuthenticationService extends AuthenticationRepository {
   Future<User?> getCurrentUser() async {
     return FirebaseAuth.instance.currentUser;
   }
+
+  @override
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
 }

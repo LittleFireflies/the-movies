@@ -36,5 +36,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginFailed(e.toString()));
       }
     });
+    on<Logout>((event, emit) async {
+      await _authenticationRepository.signOut();
+
+      emit(LogoutSuccess());
+    });
   }
 }

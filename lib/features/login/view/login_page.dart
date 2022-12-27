@@ -33,7 +33,7 @@ class LoginView extends StatelessWidget {
         }
 
         if (state is LoginSuccess) {
-          Navigator.of(context).push(
+          Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const MovieListPage()));
         }
       },

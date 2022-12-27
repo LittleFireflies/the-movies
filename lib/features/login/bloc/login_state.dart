@@ -21,3 +21,5 @@ class LoginFailed extends LoginState {
   @override
   List<Object?> get props => [errorMessage];
 }
+
+class LogoutSuccess extends LoginState {}

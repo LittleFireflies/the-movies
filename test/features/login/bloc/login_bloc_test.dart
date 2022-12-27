@@ -121,5 +121,24 @@ void main() {
         },
       );
     });
+
+    group('Logout', () {
+      blocTest(
+        'should emit LogoutSuccess '
+        'when Logout event is added',
+        setUp: () {
+          when(() => authenticationRepository.signOut())
+              .thenAnswer((_) => Future.value());
+        },
+        build: () => loginBloc,
+        act: (bloc) => bloc.add(Logout()),
+        expect: () => [
+          LogoutSuccess(),
+        ],
+        verify: (_) {
+          verify(() => authenticationRepository.signOut()).called(1);
+        },
+      );
+    });
   });
 }
