@@ -15,12 +15,17 @@ void main() {
   group('LoginBloc', () {
     late AuthenticationRepository authenticationRepository;
     late LoginBloc loginBloc;
+    late UserCredential userCredential;
+    late User user;
 
     final exception = Exception('Error!');
 
     setUp(() {
       authenticationRepository = MockRepository();
       loginBloc = LoginBloc(authenticationRepository: authenticationRepository);
+
+      userCredential = MockUserCredential();
+      user = MockUser();
     });
 
     group('LoginWithGoogle', () {
@@ -30,13 +35,13 @@ void main() {
         'and auth is successful',
         setUp: () {
           when(() => authenticationRepository.signInWithGoogle())
-              .thenAnswer((_) async => MockUserCredential());
+              .thenAnswer((_) async => userCredential);
         },
         build: () => loginBloc,
         act: (bloc) => bloc.add(LoginWithGoogle()),
         expect: () => [
           LoginLoading(),
-          LoginSuccess(),
+          LoginSuccess(userCredential.user),
         ],
         verify: (_) {
           verify(() => authenticationRepository.signInWithGoogle()).called(1);
@@ -70,13 +75,13 @@ void main() {
         'and user is exist',
         setUp: () {
           when(() => authenticationRepository.getCurrentUser())
-              .thenAnswer((_) async => MockUser());
+              .thenAnswer((_) async => user);
         },
         build: () => loginBloc,
         act: (bloc) => bloc.add(GetSignedInUser()),
         expect: () => [
           LoginLoading(),
-          LoginSuccess(),
+          LoginSuccess(user),
         ],
         verify: (_) {
           verify(() => authenticationRepository.getCurrentUser()).called(1);

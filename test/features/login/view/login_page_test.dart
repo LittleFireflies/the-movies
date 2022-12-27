@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,14 +16,18 @@ class FakeRoute extends Fake implements Route<void> {}
 class MockLoginBloc extends MockBloc<LoginEvent, LoginState>
     implements LoginBloc {}
 
+class MockUser extends Mock implements User {}
+
 void main() {
   group('Login Page', () {
     late NavigatorObserver mockObserver;
     late LoginBloc loginBloc;
+    late User mockUser;
 
     setUp(() {
       mockObserver = MockNavigatorObserver();
       loginBloc = MockLoginBloc();
+      mockUser = MockUser();
     });
 
     setUpAll(() {
@@ -98,7 +103,7 @@ void main() {
         whenListen(
           loginBloc,
           Stream.fromIterable([
-            LoginSuccess(),
+            LoginSuccess(mockUser),
           ]),
         );
 

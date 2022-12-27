@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_movies/services/auth/authentication_repository.dart';
 
@@ -14,9 +15,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginWithGoogle>((event, emit) async {
       emit(LoginLoading());
       try {
-        await _authenticationRepository.signInWithGoogle();
+        final userCredential =
+            await _authenticationRepository.signInWithGoogle();
 
-        emit(LoginSuccess());
+        emit(LoginSuccess(userCredential.user));
       } catch (e) {
         emit(LoginFailed(e.toString()));
       }
@@ -28,7 +30,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         final user = await _authenticationRepository.getCurrentUser();
 
         if (user != null) {
-          emit(LoginSuccess());
+          emit(LoginSuccess(user));
         } else {
           emit(LoginInitial());
         }

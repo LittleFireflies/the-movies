@@ -34,7 +34,12 @@ class LoginView extends StatelessWidget {
 
         if (state is LoginSuccess) {
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const MovieListPage()));
+            MaterialPageRoute(
+              builder: (context) => MovieListPage(
+                user: state.user,
+              ),
+            ),
+          );
         }
       },
       child: Scaffold(
