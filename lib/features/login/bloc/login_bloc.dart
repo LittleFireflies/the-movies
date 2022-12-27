@@ -21,5 +21,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginFailed(e.toString()));
       }
     });
+    on<GetSignedInUser>((event, emit) async {
+      emit(LoginLoading());
+
+      try {
+        final user = await _authenticationRepository.getCurrentUser();
+
+        if (user != null) {
+          emit(LoginSuccess());
+        } else {
+          emit(LoginInitial());
+        }
+      } catch (e) {
+        emit(LoginFailed(e.toString()));
+      }
+    });
   }
 }

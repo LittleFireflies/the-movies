@@ -17,4 +17,9 @@ class AuthenticationService extends AuthenticationRepository {
 
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
+
+  @override
+  Future<User?> getCurrentUser() async {
+    return FirebaseAuth.instance.currentUser;
+  }
 }
