@@ -17,7 +17,7 @@ class MoviesDrawer extends StatelessWidget {
       listener: (context, state) {
         if (state is LogoutSuccess) {
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginPage()));
+              MaterialPageRoute(builder: (context) => const LoginPage()));
         }
       },
       child: Drawer(
