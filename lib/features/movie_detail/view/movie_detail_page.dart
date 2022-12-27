@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:the_movies/services/api/models/movie.dart';
 import 'package:the_movies/theme/typography.dart';
 import 'package:the_movies/utils/constants.dart';
+import 'package:the_movies/utils/shared_widgets/movies_image.dart';
 
 class MovieDetailPage extends StatelessWidget {
   static const _posterHeight = 120.0;
@@ -32,14 +33,14 @@ class MovieDetailPage extends StatelessWidget {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                Image.network('$baseImageUrl${movie.backdropPath}'),
+                MoviesImage(imageUrl: '$baseImageUrl${movie.backdropPath}'),
                 Positioned(
                   bottom: -(_posterHeight / 2),
                   left: 16,
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    child: Image.network(
-                      '$baseImageUrl${movie.posterPath}',
+                    child: MoviesImage(
+                      imageUrl: '$baseImageUrl${movie.posterPath}',
                       height: _posterHeight,
                     ),
                   ),

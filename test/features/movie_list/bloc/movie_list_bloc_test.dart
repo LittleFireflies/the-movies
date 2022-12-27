@@ -2,14 +2,14 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:the_movies/features/movie_list/bloc/movie_list_bloc.dart';
-import 'package:the_movies/services/api/api_repository.dart';
+import 'package:the_movies/repositories/movies_repository.dart';
 import 'package:the_movies/services/api/models/movie.dart';
 
-class MockApiRepository extends Mock implements ApiRepository {}
+class MockMoviesRepository extends Mock implements MoviesRepository {}
 
 void main() {
   group('MovieListBloc', () {
-    late ApiRepository apiRepository;
+    late MoviesRepository moviesRepository;
     late MovieListBloc movieListBloc;
 
     const movie = Movie(
@@ -24,8 +24,8 @@ void main() {
     final exception = Exception('Error!');
 
     setUp(() {
-      apiRepository = MockApiRepository();
-      movieListBloc = MovieListBloc(apiRepository);
+      moviesRepository = MockMoviesRepository();
+      movieListBloc = MovieListBloc(moviesRepository);
     });
 
     blocTest(
@@ -33,7 +33,7 @@ void main() {
       'when LoadMovieList is added '
       'and repository return movie list',
       setUp: () {
-        when(() => apiRepository.getPopularMovies())
+        when(() => moviesRepository.getPopularMovies())
             .thenAnswer((_) async => [movie]);
       },
       build: () => movieListBloc,
@@ -43,7 +43,7 @@ void main() {
         const MovieListLoaded([movie]),
       ],
       verify: (_) {
-        verify(() => apiRepository.getPopularMovies()).called(1);
+        verify(() => moviesRepository.getPopularMovies()).called(1);
       },
     );
 
@@ -52,7 +52,7 @@ void main() {
       'when LoadMovieList is added '
       'and repository return movie list',
       setUp: () {
-        when(() => apiRepository.getPopularMovies()).thenThrow(exception);
+        when(() => moviesRepository.getPopularMovies()).thenThrow(exception);
       },
       build: () => movieListBloc,
       act: (bloc) => bloc.add(LoadMovieList()),
@@ -61,7 +61,7 @@ void main() {
         MovieListLoadError(exception.toString()),
       ],
       verify: (_) {
-        verify(() => apiRepository.getPopularMovies()).called(1);
+        verify(() => moviesRepository.getPopularMovies()).called(1);
       },
     );
   });

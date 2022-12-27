@@ -6,6 +6,7 @@ import 'package:the_movies/features/login/bloc/login_bloc.dart';
 import 'package:the_movies/features/movie_list/bloc/movie_list_bloc.dart';
 import 'package:the_movies/features/movie_list/widgets/movie_card.dart';
 import 'package:the_movies/features/movie_list/widgets/movies_drawer.dart';
+import 'package:the_movies/repositories/movies_repository_impl.dart';
 import 'package:the_movies/services/api/api_service.dart';
 import 'package:the_movies/services/auth/authentication_service.dart';
 
@@ -28,8 +29,10 @@ class MovieListPage extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => MovieListBloc(
-            ApiService(
-              Client(),
+            MoviesRepositoryImpl(
+              apiService: ApiService(
+                Client(),
+              ),
             ),
           )..add(LoadMovieList()),
         ),

@@ -3,6 +3,7 @@ import 'package:the_movies/features/movie_detail/view/movie_detail_page.dart';
 import 'package:the_movies/services/api/models/movie.dart';
 import 'package:the_movies/theme/typography.dart';
 import 'package:the_movies/utils/constants.dart';
+import 'package:the_movies/utils/shared_widgets/movies_image.dart';
 
 class MovieCard extends StatelessWidget {
   const MovieCard({
@@ -64,8 +65,8 @@ class MovieCard extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
-                child: Image.network(
-                  '$baseImageUrl${movie.posterPath}',
+                child: MoviesImage(
+                  imageUrl: '$baseImageUrl${movie.posterPath}',
                   width: 80,
                 ),
               ),
