@@ -77,13 +77,13 @@ class MovieDetailPage extends StatelessWidget {
                 children: [
                   Text(
                     'Overview',
-                    style: Theme.of(context).textTheme.heading5.copyWith(
+                    style: Theme.of(context).textTheme.title.copyWith(
                         color: Theme.of(context).colorScheme.onBackground),
                   ),
                   const SizedBox(height: 16),
                   Text(
                     movie.overview,
-                    style: Theme.of(context).textTheme.heading6.copyWith(
+                    style: Theme.of(context).textTheme.bodyText.copyWith(
                         color: Theme.of(context).colorScheme.onBackground),
                     textAlign: TextAlign.justify,
                   ),

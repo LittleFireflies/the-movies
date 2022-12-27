@@ -40,7 +40,7 @@ class MovieCard extends StatelessWidget {
                       movie.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.heading5.copyWith(
+                      style: Theme.of(context).textTheme.title.copyWith(
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
                     ),
@@ -49,7 +49,7 @@ class MovieCard extends StatelessWidget {
                       movie.overview,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.label.copyWith(
+                      style: Theme.of(context).textTheme.bodyText.copyWith(
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
                     ),
