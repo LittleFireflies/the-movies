@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:the_movies/features/movie_detail/view/movie_detail_page.dart';
 import 'package:the_movies/services/api/models/movie.dart';
 import 'package:the_movies/theme/typography.dart';
+import 'package:the_movies/utils/constants.dart';
 
 class MovieCard extends StatelessWidget {
   const MovieCard({
@@ -16,7 +18,10 @@ class MovieCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 4),
       padding: const EdgeInsets.all(8),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => MovieDetailPage(movie: movie)));
+        },
         child: Stack(
           alignment: Alignment.bottomLeft,
           children: [
@@ -43,6 +48,7 @@ class MovieCard extends StatelessWidget {
                     Text(
                       movie.overview,
                       maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.label.copyWith(
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
@@ -59,7 +65,7 @@ class MovieCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                 child: Image.network(
-                  'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                  '$baseImageUrl${movie.posterPath}',
                   width: 80,
                 ),
               ),

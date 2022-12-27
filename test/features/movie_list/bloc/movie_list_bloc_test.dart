@@ -18,6 +18,7 @@ void main() {
       overview: 'overview',
       backdropPath: 'backdropPath',
       posterPath: 'posterPath',
+      voteAverage: 7.6,
     );
 
     final exception = Exception('Error!');

@@ -12,6 +12,8 @@ class Movie extends Equatable {
   final String backdropPath;
   @JsonKey(name: 'poster_path')
   final String posterPath;
+  @JsonKey(name: 'vote_average')
+  final double voteAverage;
 
   const Movie({
     required this.id,
@@ -19,6 +21,7 @@ class Movie extends Equatable {
     required this.overview,
     required this.backdropPath,
     required this.posterPath,
+    required this.voteAverage,
   });
 
   static Movie fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
@@ -32,5 +35,6 @@ class Movie extends Equatable {
         overview,
         backdropPath,
         posterPath,
+        voteAverage,
       ];
 }
