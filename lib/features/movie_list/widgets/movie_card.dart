@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:the_movies/features/movie_detail/view/movie_detail_page.dart';
 import 'package:the_movies/services/api/models/movie.dart';
 import 'package:the_movies/theme/typography.dart';
 import 'package:the_movies/utils/constants.dart';
@@ -9,9 +8,11 @@ class MovieCard extends StatelessWidget {
   const MovieCard({
     Key? key,
     required this.movie,
+    this.onTap,
   }) : super(key: key);
 
   final Movie movie;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +20,7 @@ class MovieCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 4),
       padding: const EdgeInsets.all(8),
       child: InkWell(
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => MovieDetailPage(movie: movie)));
-        },
+        onTap: onTap,
         child: Stack(
           alignment: Alignment.bottomLeft,
           children: [

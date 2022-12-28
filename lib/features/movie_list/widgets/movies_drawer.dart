@@ -45,8 +45,13 @@ class MoviesDrawer extends StatelessWidget {
             ),
             ListTile(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const FavoriteMovieListPage()));
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FavoriteMovieListPage(),
+                  ),
+                );
               },
               title: Text(
                 'Favorite Movies',
