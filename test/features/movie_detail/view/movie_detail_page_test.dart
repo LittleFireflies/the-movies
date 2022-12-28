@@ -32,9 +32,11 @@ void main() {
 
     testWidgets(
       'should add AddToFavorite to bloc '
-      'when favoriteButton is tapped',
+      'when favoriteButton is tapped '
+      'and isFavorite is false',
       (tester) async {
-        when(() => movieDetailBloc.state).thenReturn(MovieDetailLoaded());
+        when(() => movieDetailBloc.state)
+            .thenReturn(const MovieDetailLoaded(isFavorite: false));
 
         await mockNetworkImagesFor(
           () => tester.pumpWidget(
@@ -55,10 +57,38 @@ void main() {
     );
 
     testWidgets(
+      'should do nothing '
+      'when favoriteButton is tapped '
+      'and isFavorite is true',
+      (tester) async {
+        when(() => movieDetailBloc.state)
+            .thenReturn(const MovieDetailLoaded(isFavorite: true));
+
+        await mockNetworkImagesFor(
+          () => tester.pumpWidget(
+            MaterialApp(
+              home: buildBlocProvider(
+                child: const MovieDetailView(
+                  movie: movie,
+                ),
+              ),
+            ),
+          ),
+        );
+
+        await tester.tap(find.byKey(MovieDetailKeys.favoriteButton));
+
+        verifyNever(() => movieDetailBloc.add(const AddToFavorite(movie)));
+      },
+    );
+
+    testWidgets(
       'should display SnackBar '
+      'and add GetFavoriteStatus to bloc '
       'when state is AddToFavoriteSuccess',
       (tester) async {
-        when(() => movieDetailBloc.state).thenReturn(MovieDetailLoaded());
+        when(() => movieDetailBloc.state)
+            .thenReturn(const MovieDetailLoaded(isFavorite: false));
 
         whenListen(
           movieDetailBloc,
@@ -82,6 +112,8 @@ void main() {
         await tester.pump();
 
         expect(find.byType(SnackBar), findsOneWidget);
+        verify(() => movieDetailBloc.add(const GetFavoriteStatus(movie)))
+            .called(1);
       },
     );
   });

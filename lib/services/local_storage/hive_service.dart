@@ -24,4 +24,15 @@ class HiveService implements LocalStorageService {
       FavoriteMovie(email: email, movie: movie),
     );
   }
+
+  @override
+  Future<Movie?> getFavoriteMovieByMovie({
+    required Movie movie,
+    required String email,
+  }) {
+    final id = '$email${movie.id}';
+    final favoriteMovie = favoriteMoviesBox.get(id);
+
+    return Future.value(favoriteMovie?.movie);
+  }
 }

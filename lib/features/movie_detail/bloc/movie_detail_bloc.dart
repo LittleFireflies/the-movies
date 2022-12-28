@@ -12,6 +12,13 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   MovieDetailBloc(MoviesRepository moviesRepository)
       : _moviesRepository = moviesRepository,
         super(MovieDetailLoading()) {
+    on<GetFavoriteStatus>((event, emit) async {
+      emit(MovieDetailLoading());
+
+      final isFavorite = await _moviesRepository.isFavorite(event.movie);
+
+      emit(MovieDetailLoaded(isFavorite: isFavorite));
+    });
     on<AddToFavorite>((event, emit) async {
       emit(MovieDetailLoading());
 

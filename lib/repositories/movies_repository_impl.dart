@@ -36,4 +36,19 @@ class MoviesRepositoryImpl implements MoviesRepository {
       throw const UnauthenticatedException();
     }
   }
+
+  @override
+  Future<bool> isFavorite(Movie movie) async {
+    final user = await _authenticationService.getCurrentUser();
+
+    if (user != null) {
+      final favoriteMovie = await _storageService.getFavoriteMovieByMovie(
+        movie: movie,
+        email: user.email ?? '',
+      );
+      return Future.value(favoriteMovie != null);
+    } else {
+      throw const UnauthenticatedException();
+    }
+  }
 }

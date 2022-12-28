@@ -38,5 +38,25 @@ void main() {
         verify(() => moviesRepository.addToFavorite(movie)).called(1);
       },
     );
+
+    blocTest(
+      'should emit MovieDetailLoaded '
+      'and isFavorite is true '
+      'when GetFavoriteStatus is added '
+      'and repository returns true',
+      setUp: () {
+        when(() => moviesRepository.isFavorite(movie))
+            .thenAnswer((_) async => true);
+      },
+      build: () => movieDetailBloc,
+      act: (bloc) => bloc.add(const GetFavoriteStatus(movie)),
+      expect: () => [
+        MovieDetailLoading(),
+        const MovieDetailLoaded(isFavorite: true),
+      ],
+      verify: (_) {
+        verify(() => moviesRepository.isFavorite(movie)).called(1);
+      },
+    );
   });
 }

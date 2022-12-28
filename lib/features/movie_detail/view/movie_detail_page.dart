@@ -18,7 +18,7 @@ class MovieDetailPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => MovieDetailBloc(
         context.read<MoviesRepositoryImpl>(),
-      ),
+      )..add(GetFavoriteStatus(movie)),
       child: MovieDetailView(movie: movie),
     );
   }
@@ -46,6 +46,7 @@ class MovieDetailView extends StatelessWidget {
                 content: Text('Movie added to favorites'),
               ),
             );
+            context.read<MovieDetailBloc>().add(GetFavoriteStatus(movie));
           },
         ),
       ],
@@ -53,15 +54,30 @@ class MovieDetailView extends StatelessWidget {
         appBar: AppBar(
           title: Text(movie.title),
           actions: [
-            IconButton(
-              key: MovieDetailKeys.favoriteButton,
-              onPressed: () {
-                context.read<MovieDetailBloc>().add(AddToFavorite(movie));
+            BlocBuilder<MovieDetailBloc, MovieDetailState>(
+              buildWhen: (p, c) => c is MovieDetailLoaded,
+              builder: (context, state) {
+                if (state is MovieDetailLoaded) {
+                  return IconButton(
+                    key: MovieDetailKeys.favoriteButton,
+                    onPressed: () {
+                      if (!state.isFavorite) {
+                        context
+                            .read<MovieDetailBloc>()
+                            .add(AddToFavorite(movie));
+                      }
+                    },
+                    icon: Icon(
+                      state.isFavorite
+                          ? Icons.favorite
+                          : Icons.favorite_outline,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
               },
-              icon: Icon(
-                Icons.favorite,
-                color: Theme.of(context).colorScheme.primary,
-              ),
             ),
           ],
         ),

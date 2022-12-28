@@ -9,6 +9,13 @@ abstract class MovieDetailState extends Equatable {
 
 class MovieDetailLoading extends MovieDetailState {}
 
-class MovieDetailLoaded extends MovieDetailState {}
+class MovieDetailLoaded extends MovieDetailState {
+  final bool isFavorite;
 
-class AddToFavoriteSuccess extends MovieDetailLoaded {}
+  const MovieDetailLoaded({required this.isFavorite});
+
+  @override
+  List<Object?> get props => [isFavorite];
+}
+
+class AddToFavoriteSuccess extends MovieDetailState {}
