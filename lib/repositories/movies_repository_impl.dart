@@ -51,4 +51,18 @@ class MoviesRepositoryImpl implements MoviesRepository {
       throw const UnauthenticatedException();
     }
   }
+
+  @override
+  Future<void> removeFromFavorite(Movie movie) async {
+    final user = await _authenticationService.getCurrentUser();
+
+    if (user != null) {
+      await _storageService.removeFromFavorite(
+        movie: movie,
+        email: user.email ?? '',
+      );
+    } else {
+      throw const UnauthenticatedException();
+    }
+  }
 }

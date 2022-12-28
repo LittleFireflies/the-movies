@@ -50,9 +50,20 @@ class MovieDetailView extends StatelessWidget {
           },
         ),
         BlocListener<MovieDetailBloc, MovieDetailState>(
-          listenWhen: (p, c) => c is AddToFavoriteError,
+          listenWhen: (p, c) => c is RemoveFromFavoriteSuccess,
           listener: (context, state) {
-            if (state is! AddToFavoriteError) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Movie removed from favorites'),
+              ),
+            );
+            context.read<MovieDetailBloc>().add(GetFavoriteStatus(movie));
+          },
+        ),
+        BlocListener<MovieDetailBloc, MovieDetailState>(
+          listenWhen: (p, c) => c is FavoriteError,
+          listener: (context, state) {
+            if (state is! FavoriteError) return;
 
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -77,6 +88,10 @@ class MovieDetailView extends StatelessWidget {
                         context
                             .read<MovieDetailBloc>()
                             .add(AddToFavorite(movie));
+                      } else {
+                        context
+                            .read<MovieDetailBloc>()
+                            .add(RemoveFromFavorite(movie));
                       }
                     },
                     icon: Icon(

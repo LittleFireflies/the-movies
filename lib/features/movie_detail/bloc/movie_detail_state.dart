@@ -20,10 +20,12 @@ class MovieDetailLoaded extends MovieDetailState {
 
 class AddToFavoriteSuccess extends MovieDetailState {}
 
-class AddToFavoriteError extends MovieDetailState {
+class RemoveFromFavoriteSuccess extends MovieDetailState {}
+
+class FavoriteError extends MovieDetailState {
   final String message;
 
-  const AddToFavoriteError(this.message);
+  const FavoriteError(this.message);
 
   @override
   List<Object?> get props => [message];

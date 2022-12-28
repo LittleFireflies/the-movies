@@ -57,7 +57,7 @@ void main() {
     );
 
     testWidgets(
-      'should do nothing '
+      'should add removeFromFavorite to bloc '
       'when favoriteButton is tapped '
       'and isFavorite is true',
       (tester) async {
@@ -78,7 +78,8 @@ void main() {
 
         await tester.tap(find.byKey(MovieDetailKeys.favoriteButton));
 
-        verifyNever(() => movieDetailBloc.add(const AddToFavorite(movie)));
+        verify(() => movieDetailBloc.add(const RemoveFromFavorite(movie)))
+            .called(1);
       },
     );
 
@@ -120,7 +121,8 @@ void main() {
 
     testWidgets(
       'should display SnackBar '
-      'when state is AddToFavoriteError',
+      'and add GetFavoriteStatus to bloc '
+      'when state is RemoveFromFavoriteSuccess',
       (tester) async {
         when(() => movieDetailBloc.state)
             .thenReturn(const MovieDetailLoaded(isFavorite: false));
@@ -128,7 +130,42 @@ void main() {
         whenListen(
           movieDetailBloc,
           Stream.fromIterable([
-            const AddToFavoriteError('Error!'),
+            RemoveFromFavoriteSuccess(),
+          ]),
+        );
+
+        await mockNetworkImagesFor(
+          () => tester.pumpWidget(
+            MaterialApp(
+              home: buildBlocProvider(
+                child: const MovieDetailView(
+                  movie: movie,
+                ),
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(find.text('Movie removed from favorites'), findsOneWidget);
+        verify(() => movieDetailBloc.add(const GetFavoriteStatus(movie)))
+            .called(1);
+      },
+    );
+
+    testWidgets(
+      'should display SnackBar '
+      'when state is FavoriteError',
+      (tester) async {
+        when(() => movieDetailBloc.state)
+            .thenReturn(const MovieDetailLoaded(isFavorite: false));
+
+        whenListen(
+          movieDetailBloc,
+          Stream.fromIterable([
+            const FavoriteError('Error!'),
           ]),
         );
 

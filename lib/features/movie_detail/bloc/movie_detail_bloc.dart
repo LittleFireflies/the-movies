@@ -27,7 +27,18 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
 
         emit(AddToFavoriteSuccess());
       } catch (e) {
-        emit(AddToFavoriteError(e.toString()));
+        emit(FavoriteError(e.toString()));
+      }
+    });
+    on<RemoveFromFavorite>((event, emit) async {
+      emit(MovieDetailLoading());
+
+      try {
+        await _moviesRepository.removeFromFavorite(event.movie);
+
+        emit(RemoveFromFavoriteSuccess());
+      } catch (e) {
+        emit(FavoriteError(e.toString()));
       }
     });
   }

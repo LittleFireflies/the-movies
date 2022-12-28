@@ -35,4 +35,14 @@ class HiveService implements LocalStorageService {
 
     return Future.value(favoriteMovie?.movie);
   }
+
+  @override
+  Future<void> removeFromFavorite({
+    required Movie movie,
+    required String email,
+  }) async {
+    final id = '$email${movie.id}';
+
+    favoriteMoviesBox.delete(id);
+  }
 }

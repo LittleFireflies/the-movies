@@ -42,9 +42,9 @@ void main() {
     );
 
     blocTest(
-      'should emit AddToFavoriteError '
+      'should emit FavoriteError '
       'when AddToFavorite is added '
-      'and favorite movie added successfully',
+      'and add favorite movie failed',
       setUp: () {
         when(() => moviesRepository.addToFavorite(movie)).thenThrow(exception);
       },
@@ -52,10 +52,48 @@ void main() {
       act: (bloc) => bloc.add(const AddToFavorite(movie)),
       expect: () => [
         MovieDetailLoading(),
-        AddToFavoriteError(exception.toString()),
+        FavoriteError(exception.toString()),
       ],
       verify: (_) {
         verify(() => moviesRepository.addToFavorite(movie)).called(1);
+      },
+    );
+
+    blocTest(
+      'should emit RemoveFromFavoriteSuccess '
+      'when RemoveFromFavorite is added '
+      'and favorite movie removed successfully',
+      setUp: () {
+        when(() => moviesRepository.removeFromFavorite(movie))
+            .thenAnswer((_) async => Future.value());
+      },
+      build: () => movieDetailBloc,
+      act: (bloc) => bloc.add(const RemoveFromFavorite(movie)),
+      expect: () => [
+        MovieDetailLoading(),
+        RemoveFromFavoriteSuccess(),
+      ],
+      verify: (_) {
+        verify(() => moviesRepository.removeFromFavorite(movie)).called(1);
+      },
+    );
+
+    blocTest(
+      'should emit FavoriteError '
+      'when RemoveFromFavorite is added '
+      'and remove favorite movie failed',
+      setUp: () {
+        when(() => moviesRepository.removeFromFavorite(movie))
+            .thenThrow(exception);
+      },
+      build: () => movieDetailBloc,
+      act: (bloc) => bloc.add(const RemoveFromFavorite(movie)),
+      expect: () => [
+        MovieDetailLoading(),
+        FavoriteError(exception.toString()),
+      ],
+      verify: (_) {
+        verify(() => moviesRepository.removeFromFavorite(movie)).called(1);
       },
     );
 
@@ -73,6 +111,26 @@ void main() {
       expect: () => [
         MovieDetailLoading(),
         const MovieDetailLoaded(isFavorite: true),
+      ],
+      verify: (_) {
+        verify(() => moviesRepository.isFavorite(movie)).called(1);
+      },
+    );
+
+    blocTest(
+      'should emit MovieDetailLoaded '
+      'and isFavorite is false '
+      'when GetFavoriteStatus is added '
+      'and repository returns false',
+      setUp: () {
+        when(() => moviesRepository.isFavorite(movie))
+            .thenAnswer((_) async => false);
+      },
+      build: () => movieDetailBloc,
+      act: (bloc) => bloc.add(const GetFavoriteStatus(movie)),
+      expect: () => [
+        MovieDetailLoading(),
+        const MovieDetailLoaded(isFavorite: false),
       ],
       verify: (_) {
         verify(() => moviesRepository.isFavorite(movie)).called(1);

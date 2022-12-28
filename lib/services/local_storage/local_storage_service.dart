@@ -10,4 +10,9 @@ abstract class LocalStorageService {
     required Movie movie,
     required String email,
   });
+
+  Future<void> removeFromFavorite({
+    required Movie movie,
+    required String email,
+  });
 }
