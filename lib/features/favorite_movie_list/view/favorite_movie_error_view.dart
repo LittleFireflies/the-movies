@@ -14,10 +14,7 @@ class FavoriteMovieErrorView extends StatelessWidget {
     return Center(
       child: Text(
         errorMessage,
-        style: Theme.of(context)
-            .textTheme
-            .title
-            .copyWith(color: Theme.of(context).colorScheme.onBackground),
+        style: Theme.of(context).textTheme.title,
         textAlign: TextAlign.center,
       ),
     );

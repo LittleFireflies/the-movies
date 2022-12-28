@@ -75,8 +75,7 @@ class MovieListView extends StatelessWidget {
               state.message,
               style: Theme.of(context)
                   .textTheme
-                  .title
-                  .copyWith(color: Theme.of(context).colorScheme.onBackground),
+                  .title,
               textAlign: TextAlign.center,
             );
           } else {

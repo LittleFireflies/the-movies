@@ -39,18 +39,14 @@ class MovieCard extends StatelessWidget {
                       movie.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.title.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
+                      style: Theme.of(context).textTheme.title,
                     ),
                     const SizedBox(height: 16),
                     Text(
                       movie.overview,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyText.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
+                      style: Theme.of(context).textTheme.bodyText,
                     ),
                   ],
                 ),

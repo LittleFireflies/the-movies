@@ -21,8 +21,7 @@ class FavoriteMovieEmptyView extends StatelessWidget {
           "You haven't add favorite movies yet",
           style: Theme.of(context)
               .textTheme
-              .title
-              .copyWith(color: Theme.of(context).colorScheme.onBackground),
+              .title,
           textAlign: TextAlign.center,
         ),
       ],

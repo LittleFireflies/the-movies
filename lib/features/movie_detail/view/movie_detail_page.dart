@@ -140,7 +140,16 @@ class MovieDetailView extends StatelessWidget {
                             color: Theme.of(context).colorScheme.onPrimary,
                           ),
                           const SizedBox(width: 8),
-                          Text('${movie.voteAverage}'),
+                          Text(
+                            '${movie.voteAverage}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText
+                                .copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                          ),
                         ],
                       ),
                     ),
@@ -160,14 +169,12 @@ class MovieDetailView extends StatelessWidget {
                   children: [
                     Text(
                       'Overview',
-                      style: Theme.of(context).textTheme.title.copyWith(
-                          color: Theme.of(context).colorScheme.onBackground),
+                      style: Theme.of(context).textTheme.title,
                     ),
                     const SizedBox(height: 16),
                     Text(
                       movie.overview,
-                      style: Theme.of(context).textTheme.bodyText.copyWith(
-                          color: Theme.of(context).colorScheme.onBackground),
+                      style: Theme.of(context).textTheme.bodyText,
                       textAlign: TextAlign.justify,
                     ),
                   ],

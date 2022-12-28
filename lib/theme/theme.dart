@@ -4,10 +4,19 @@ import 'package:the_movies/theme/color_scheme.dart';
 
 class MoviesTheme {
   static ThemeData mainTheme() {
-    return ThemeData.dark().copyWith(
-      colorScheme: MoviesColorScheme.colorScheme,
-      textTheme: GoogleFonts.interTextTheme(),
-      scaffoldBackgroundColor: MoviesColorScheme.colorScheme.background,
+    return applyAllStyles(
+      ThemeData.from(colorScheme: MoviesColorScheme.colorScheme),
+    );
+  }
+
+  static ThemeData applyAllStyles(
+    ThemeData themeData,
+  ) {
+    return themeData.copyWith(
+      textTheme: GoogleFonts.interTextTheme(themeData.textTheme),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: themeData.colorScheme.primary,
+      ),
     );
   }
 }
