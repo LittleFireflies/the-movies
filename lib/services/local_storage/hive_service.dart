@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:the_movies/services/api/models/movie.dart';
 import 'package:the_movies/services/local_storage/local_storage_service.dart';
@@ -44,5 +45,20 @@ class HiveService implements LocalStorageService {
     final id = '$email${movie.id}';
 
     favoriteMoviesBox.delete(id);
+  }
+
+  @override
+  Future<List<Movie>> getFavoriteMovies({required String email}) {
+    final favoriteMovies = favoriteMoviesBox.keys.map((key) {
+      return favoriteMoviesBox.get(key);
+    }).toList();
+
+    final movies = favoriteMovies
+        .whereNotNull()
+        .where((favoriteMovie) => favoriteMovie.email == email)
+        .map((favoriteMovie) => favoriteMovie.movie)
+        .toList();
+
+    return Future.value(movies);
   }
 }

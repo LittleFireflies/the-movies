@@ -15,4 +15,6 @@ abstract class LocalStorageService {
     required Movie movie,
     required String email,
   });
+
+  Future<List<Movie>> getFavoriteMovies({required String email});
 }

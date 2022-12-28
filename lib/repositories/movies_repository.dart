@@ -5,4 +5,5 @@ abstract class MoviesRepository {
   Future<void> addToFavorite(Movie movie);
   Future<bool> isFavorite(Movie movie);
   Future<void> removeFromFavorite(Movie movie);
+  Future<List<Movie>> getFavoriteMovies();
 }
