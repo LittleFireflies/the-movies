@@ -15,6 +15,8 @@ void main() {
 
     const movie = TestModels.movie;
 
+    final exception = Exception('Error!');
+
     setUp(() {
       moviesRepository = MockMoviesRepository();
       movieDetailBloc = MovieDetailBloc(moviesRepository);
@@ -33,6 +35,24 @@ void main() {
       expect: () => [
         MovieDetailLoading(),
         AddToFavoriteSuccess(),
+      ],
+      verify: (_) {
+        verify(() => moviesRepository.addToFavorite(movie)).called(1);
+      },
+    );
+
+    blocTest(
+      'should emit AddToFavoriteError '
+      'when AddToFavorite is added '
+      'and favorite movie added successfully',
+      setUp: () {
+        when(() => moviesRepository.addToFavorite(movie)).thenThrow(exception);
+      },
+      build: () => movieDetailBloc,
+      act: (bloc) => bloc.add(const AddToFavorite(movie)),
+      expect: () => [
+        MovieDetailLoading(),
+        AddToFavoriteError(exception.toString()),
       ],
       verify: (_) {
         verify(() => moviesRepository.addToFavorite(movie)).called(1);

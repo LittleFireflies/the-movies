@@ -22,9 +22,13 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
     on<AddToFavorite>((event, emit) async {
       emit(MovieDetailLoading());
 
-      await _moviesRepository.addToFavorite(event.movie);
+      try {
+        await _moviesRepository.addToFavorite(event.movie);
 
-      emit(AddToFavoriteSuccess());
+        emit(AddToFavoriteSuccess());
+      } catch (e) {
+        emit(AddToFavoriteError(e.toString()));
+      }
     });
   }
 }

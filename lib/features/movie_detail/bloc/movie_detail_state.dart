@@ -19,3 +19,12 @@ class MovieDetailLoaded extends MovieDetailState {
 }
 
 class AddToFavoriteSuccess extends MovieDetailState {}
+
+class AddToFavoriteError extends MovieDetailState {
+  final String message;
+
+  const AddToFavoriteError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

@@ -112,8 +112,43 @@ void main() {
         await tester.pump();
 
         expect(find.byType(SnackBar), findsOneWidget);
+        expect(find.text('Movie added to favorites'), findsOneWidget);
         verify(() => movieDetailBloc.add(const GetFavoriteStatus(movie)))
             .called(1);
+      },
+    );
+
+    testWidgets(
+      'should display SnackBar '
+      'when state is AddToFavoriteError',
+      (tester) async {
+        when(() => movieDetailBloc.state)
+            .thenReturn(const MovieDetailLoaded(isFavorite: false));
+
+        whenListen(
+          movieDetailBloc,
+          Stream.fromIterable([
+            const AddToFavoriteError('Error!'),
+          ]),
+        );
+
+        await mockNetworkImagesFor(
+          () => tester.pumpWidget(
+            MaterialApp(
+              home: buildBlocProvider(
+                child: const MovieDetailView(
+                  movie: movie,
+                ),
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(find.text('Error!'), findsOneWidget);
+        verifyNever(() => movieDetailBloc.add(const GetFavoriteStatus(movie)));
       },
     );
   });

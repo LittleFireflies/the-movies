@@ -49,6 +49,18 @@ class MovieDetailView extends StatelessWidget {
             context.read<MovieDetailBloc>().add(GetFavoriteStatus(movie));
           },
         ),
+        BlocListener<MovieDetailBloc, MovieDetailState>(
+          listenWhen: (p, c) => c is AddToFavoriteError,
+          listener: (context, state) {
+            if (state is! AddToFavoriteError) return;
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+              ),
+            );
+          },
+        ),
       ],
       child: Scaffold(
         appBar: AppBar(
