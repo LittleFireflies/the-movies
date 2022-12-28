@@ -4,7 +4,7 @@ import 'package:the_movies/services/api/models/movie.dart';
 
 part 'movie_response.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class MovieResponse extends Equatable {
   final List<Movie> results;
 
@@ -14,8 +14,6 @@ class MovieResponse extends Equatable {
 
   static MovieResponse fromJson(Map<String, dynamic> json) =>
       _$MovieResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MovieResponseToJson(this);
 
   @override
   List<Object?> get props => [results];

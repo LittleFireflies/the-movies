@@ -7,7 +7,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:the_movies/features/movie_list/bloc/movie_list_bloc.dart';
 import 'package:the_movies/features/movie_list/view/movie_list_page.dart';
-import 'package:the_movies/services/api/models/movie.dart';
+
+import '../../../helpers/test_models.dart';
 
 class MockMovieListBloc extends MockBloc<MovieListEvent, MovieListState>
     implements MovieListBloc {}
@@ -19,14 +20,7 @@ void main() {
     late MovieListBloc movieListBloc;
     late User mockUser;
 
-    const movie = Movie(
-      id: 123,
-      title: 'title',
-      overview: 'overview',
-      backdropPath: 'backdropPath',
-      posterPath: 'posterPath',
-      voteAverage: 7.6,
-    );
+    const movie = TestModels.movie;
 
     setUp(() {
       movieListBloc = MockMovieListBloc();

@@ -3,7 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:the_movies/features/movie_list/bloc/movie_list_bloc.dart';
 import 'package:the_movies/repositories/movies_repository.dart';
-import 'package:the_movies/services/api/models/movie.dart';
+
+import '../../../helpers/test_models.dart';
 
 class MockMoviesRepository extends Mock implements MoviesRepository {}
 
@@ -12,14 +13,7 @@ void main() {
     late MoviesRepository moviesRepository;
     late MovieListBloc movieListBloc;
 
-    const movie = Movie(
-      id: 123,
-      title: 'title',
-      overview: 'overview',
-      backdropPath: 'backdropPath',
-      posterPath: 'posterPath',
-      voteAverage: 7.6,
-    );
+    const movie = TestModels.movie;
 
     final exception = Exception('Error!');
 

@@ -11,7 +11,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => LoginBloc(
-        authenticationRepository: AuthenticationService(),
+        authenticationRepository: context.read<AuthenticationService>(),
       )..add(GetSignedInUser()),
       child: const LoginView(),
     );
