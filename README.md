@@ -1,16 +1,5 @@
-# the_movies
+# The Movies
 
-A new Flutter project.
+Movies App where you can discover millions of popular movies
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img width="300" alt="image" src="https://user-images.githubusercontent.com/14922088/209834035-4c5f991e-c8a6-4fd2-85b8-7edabfe9e574.png"><img width="300" alt="image" src="https://user-images.githubusercontent.com/14922088/209834081-aff88793-c4be-48fb-b53a-ef8447fa80a8.png">
