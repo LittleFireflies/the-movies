@@ -19,8 +19,8 @@ class MoviesRepositoryImpl implements MoviesRepository {
         _authenticationService = authenticationService;
 
   @override
-  Future<List<Movie>> getPopularMovies() async {
-    return await _apiService.getPopularMovies();
+  Future<List<Movie>> getPopularMovies({int page = 1}) async {
+    return await _apiService.getPopularMovies(page: page);
   }
 
   @override

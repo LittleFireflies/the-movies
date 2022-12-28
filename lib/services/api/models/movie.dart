@@ -11,15 +11,15 @@ class Movie extends Equatable {
   @HiveField(MovieFieldIds.id)
   final int id;
   @HiveField(MovieFieldIds.title)
-  final String title;
+  final String? title;
   @HiveField(MovieFieldIds.overview)
-  final String overview;
+  final String? overview;
   @HiveField(MovieFieldIds.backdropPath)
   @JsonKey(name: 'backdrop_path')
-  final String backdropPath;
+  final String? backdropPath;
   @HiveField(MovieFieldIds.posterPath)
   @JsonKey(name: 'poster_path')
-  final String posterPath;
+  final String? posterPath;
   @HiveField(MovieFieldIds.voteAverage)
   @JsonKey(name: 'vote_average')
   final double voteAverage;

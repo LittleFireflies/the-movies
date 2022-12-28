@@ -38,7 +38,7 @@ class MovieListPage extends StatelessWidget {
   }
 }
 
-class MovieListView extends StatelessWidget {
+class MovieListView extends StatefulWidget {
   final User? user;
 
   const MovieListView({
@@ -47,35 +47,78 @@ class MovieListView extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<MovieListView> createState() => _MovieListViewState();
+}
+
+class _MovieListViewState extends State<MovieListView> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      final state = context.read<MovieListBloc>().state;
+
+      if (state is MovieListLoaded) {
+        final maxScroll = _scrollController.position.maxScrollExtent;
+        final currentScroll = _scrollController.position.pixels;
+        const scrollThreshold = 200.0;
+        if (maxScroll - currentScroll <= scrollThreshold) {
+          context
+              .read<MovieListBloc>()
+              .add(LoadMorePages(state.loadedPages + 1));
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MoviesDrawer(user: user),
+      drawer: MoviesDrawer(user: widget.user),
       appBar: AppBar(
         title: const Text('The Movies'),
       ),
-      body: BlocBuilder<MovieListBloc, MovieListState>(
+      body: BlocConsumer<MovieListBloc, MovieListState>(
+        listener: (context, state) {
+          if (state is MovieListLoaded && state.isError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Failed to fetch movies data'),
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           if (state is MovieListLoaded) {
             return ListView.builder(
+              controller: _scrollController,
               itemBuilder: (context, index) {
-                final movie = state.movies[index];
+                if (index >= state.movies.length) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  final movie = state.movies[index];
 
-                return MovieCard(
-                  movie: movie,
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MovieDetailPage(movie: movie)));
-                  },
-                );
+                  return MovieCard(
+                    movie: movie,
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MovieDetailPage(movie: movie)));
+                    },
+                  );
+                }
               },
-              itemCount: state.movies.length,
+              itemCount: state.isLoadingMore
+                  ? state.movies.length + 1
+                  : state.movies.length,
             );
           } else if (state is MovieListLoadError) {
             return Text(
               state.message,
-              style: Theme.of(context)
-                  .textTheme
-                  .title,
+              style: Theme.of(context).textTheme.title,
               textAlign: TextAlign.center,
             );
           } else {
@@ -86,5 +129,11 @@ class MovieListView extends StatelessWidget {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }

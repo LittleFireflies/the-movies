@@ -39,7 +39,7 @@ void main() {
       'when state is MovieListLoaded',
       (tester) async {
         when(() => movieListBloc.state)
-            .thenReturn(const MovieListLoaded([movie]));
+            .thenReturn(const MovieListLoaded(movies: [movie], loadedPages: 1));
 
         await mockNetworkImagesFor(
           () => tester.pumpWidget(

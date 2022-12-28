@@ -14,6 +14,7 @@ void main() {
     late MovieListBloc movieListBloc;
 
     const movie = TestModels.movie;
+    const movie2 = TestModels.movie2;
 
     final exception = Exception('Error!');
 
@@ -34,7 +35,7 @@ void main() {
       act: (bloc) => bloc.add(LoadMovieList()),
       expect: () => [
         MovieListLoading(),
-        const MovieListLoaded([movie]),
+        const MovieListLoaded(movies: [movie], loadedPages: 1),
       ],
       verify: (_) {
         verify(() => moviesRepository.getPopularMovies()).called(1);
@@ -58,5 +59,60 @@ void main() {
         verify(() => moviesRepository.getPopularMovies()).called(1);
       },
     );
+
+    group('Load More', () {
+      const seedState = MovieListLoaded(
+        movies: [movie],
+        loadedPages: 1,
+      );
+      const nextPage = 2;
+
+      blocTest<MovieListBloc, MovieListState>(
+        'should emit MoviesLoaded '
+        'with new movies '
+        'when LoadMorePages is added '
+        'and repository return movie list',
+        setUp: () {
+          when(() => moviesRepository.getPopularMovies(page: nextPage))
+              .thenAnswer((_) async => [movie2]);
+        },
+        build: () => movieListBloc,
+        seed: () => seedState,
+        act: (bloc) => bloc.add(const LoadMorePages(nextPage)),
+        wait: const Duration(milliseconds: 500),
+        expect: () => [
+          seedState.copyWith(isLoadingMore: true),
+          seedState.copyWith(movies: [movie, movie2], loadedPages: 2),
+        ],
+        verify: (_) {
+          verify(() => moviesRepository.getPopularMovies(page: nextPage))
+              .called(1);
+        },
+      );
+
+      blocTest<MovieListBloc, MovieListState>(
+        'should emit MoviesLoaded '
+        'with isError true '
+        'when LoadMorePages is added '
+        'and repository throws an exception',
+        setUp: () {
+          when(() => moviesRepository.getPopularMovies(page: nextPage))
+              .thenThrow(exception);
+        },
+        build: () => movieListBloc,
+        seed: () => seedState,
+        act: (bloc) => bloc.add(const LoadMorePages(nextPage)),
+        wait: const Duration(milliseconds: 500),
+        expect: () => [
+          seedState.copyWith(isLoadingMore: true),
+          seedState.copyWith(movies: [movie], isError: true),
+          seedState.copyWith(movies: [movie]),
+        ],
+        verify: (_) {
+          verify(() => moviesRepository.getPopularMovies(page: nextPage))
+              .called(1);
+        },
+      );
+    });
   });
 }

@@ -8,3 +8,12 @@ abstract class MovieListEvent extends Equatable {
 }
 
 class LoadMovieList extends MovieListEvent {}
+
+class LoadMorePages extends MovieListEvent {
+  final int page;
+
+  const LoadMorePages(this.page);
+
+  @override
+  List<Object?> get props => [page];
+}

@@ -18,10 +18,10 @@ class MovieAdapter extends TypeAdapter<Movie> {
     };
     return Movie(
       id: fields[0] as int,
-      title: fields[1] as String,
-      overview: fields[2] as String,
-      backdropPath: fields[3] as String,
-      posterPath: fields[4] as String,
+      title: fields[1] as String?,
+      overview: fields[2] as String?,
+      backdropPath: fields[3] as String?,
+      posterPath: fields[4] as String?,
       voteAverage: fields[5] as double,
     );
   }
@@ -61,9 +61,9 @@ class MovieAdapter extends TypeAdapter<Movie> {
 
 Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       id: json['id'] as int,
-      title: json['title'] as String,
-      overview: json['overview'] as String,
-      backdropPath: json['backdrop_path'] as String,
-      posterPath: json['poster_path'] as String,
+      title: json['title'] as String?,
+      overview: json['overview'] as String?,
+      backdropPath: json['backdrop_path'] as String?,
+      posterPath: json['poster_path'] as String?,
       voteAverage: (json['vote_average'] as num).toDouble(),
     );

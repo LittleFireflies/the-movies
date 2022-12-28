@@ -75,7 +75,7 @@ class MovieDetailView extends StatelessWidget {
       ],
       child: Scaffold(
         appBar: AppBar(
-          title: Text(movie.title),
+          title: Text('${movie.title}'),
           actions: [
             BlocBuilder<MovieDetailBloc, MovieDetailState>(
               buildWhen: (p, c) => c is MovieDetailLoaded,
@@ -173,7 +173,7 @@ class MovieDetailView extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      movie.overview,
+                      '${movie.overview}',
                       style: Theme.of(context).textTheme.bodyText,
                       textAlign: TextAlign.justify,
                     ),
