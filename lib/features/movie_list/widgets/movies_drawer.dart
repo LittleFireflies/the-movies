@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:the_movies/features/favorite_movie_list/view/favorite_movie_list_page.dart';
 import 'package:the_movies/features/login/bloc/login_bloc.dart';
 import 'package:the_movies/features/login/view/login_page.dart';
+import 'package:the_movies/theme/typography.dart';
 
 class MoviesDrawer extends StatelessWidget {
   final User? user;
@@ -41,17 +43,29 @@ class MoviesDrawer extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: TextButton(
-                onPressed: () {
-                  context.read<LoginBloc>().add(Logout());
-                },
-                child: const Text(
-                  'Log Out',
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.end,
-                ),
+            ListTile(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const FavoriteMovieListPage()));
+              },
+              title: Text(
+                'Favorite Movies',
+                style: Theme.of(context)
+                    .textTheme
+                    .listTileTitle
+                    .copyWith(color: Theme.of(context).colorScheme.primary),
+              ),
+            ),
+            ListTile(
+              onTap: () {
+                context.read<LoginBloc>().add(Logout());
+              },
+              title: Text(
+                'Log Out',
+                style: Theme.of(context)
+                    .textTheme
+                    .listTileTitle
+                    .copyWith(color: Theme.of(context).colorScheme.primary),
               ),
             ),
           ],
