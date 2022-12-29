@@ -12,34 +12,49 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   MovieDetailBloc(MoviesRepository moviesRepository)
       : _moviesRepository = moviesRepository,
         super(MovieDetailLoading()) {
-    on<GetFavoriteStatus>((event, emit) async {
-      emit(MovieDetailLoading());
+    on<GetFavoriteStatus>((event, emit) => _onGetFavoriteStatus(emit, event));
+    on<AddToFavorite>((event, emit) => _onAddToFavorite(emit, event));
+    on<RemoveFromFavorite>((event, emit) => _onRemoveFromFavorite(emit, event));
+  }
 
-      final isFavorite = await _moviesRepository.isFavorite(event.movie);
+  Future<void> _onGetFavoriteStatus(
+    Emitter<MovieDetailState> emit,
+    GetFavoriteStatus event,
+  ) async {
+    emit(MovieDetailLoading());
 
-      emit(MovieDetailLoaded(isFavorite: isFavorite));
-    });
-    on<AddToFavorite>((event, emit) async {
-      emit(MovieDetailLoading());
+    final isFavorite = await _moviesRepository.isFavorite(event.movie);
 
-      try {
-        await _moviesRepository.addToFavorite(event.movie);
+    emit(MovieDetailLoaded(isFavorite: isFavorite));
+  }
 
-        emit(AddToFavoriteSuccess());
-      } catch (e) {
-        emit(FavoriteError(e.toString()));
-      }
-    });
-    on<RemoveFromFavorite>((event, emit) async {
-      emit(MovieDetailLoading());
+  Future<void> _onAddToFavorite(
+    Emitter<MovieDetailState> emit,
+    AddToFavorite event,
+  ) async {
+    emit(MovieDetailLoading());
 
-      try {
-        await _moviesRepository.removeFromFavorite(event.movie);
+    try {
+      await _moviesRepository.addToFavorite(event.movie);
 
-        emit(RemoveFromFavoriteSuccess());
-      } catch (e) {
-        emit(FavoriteError(e.toString()));
-      }
-    });
+      emit(AddToFavoriteSuccess());
+    } catch (e) {
+      emit(FavoriteError(e.toString()));
+    }
+  }
+
+  Future<void> _onRemoveFromFavorite(
+    Emitter<MovieDetailState> emit,
+    RemoveFromFavorite event,
+  ) async {
+    emit(MovieDetailLoading());
+
+    try {
+      await _moviesRepository.removeFromFavorite(event.movie);
+
+      emit(RemoveFromFavoriteSuccess());
+    } catch (e) {
+      emit(FavoriteError(e.toString()));
+    }
   }
 }

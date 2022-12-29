@@ -12,20 +12,22 @@ class FavoriteMovieBloc extends Bloc<FavoriteMovieEvent, FavoriteMovieState> {
   FavoriteMovieBloc(MoviesRepository moviesRepository)
       : _moviesRepository = moviesRepository,
         super(FavoriteMovieLoading()) {
-    on<LoadFavoriteMovies>((event, emit) async {
-      emit(FavoriteMovieLoading());
+    on<LoadFavoriteMovies>((event, emit) => _onLoadFavoriteMovies(emit));
+  }
 
-      try {
-        final favoriteMovies = await _moviesRepository.getFavoriteMovies();
+  Future<void> _onLoadFavoriteMovies(Emitter<FavoriteMovieState> emit) async {
+    emit(FavoriteMovieLoading());
 
-        if (favoriteMovies.isNotEmpty) {
-          emit(FavoriteMovieLoaded(favoriteMovies));
-        } else {
-          emit(FavoriteMovieLoadedEmpty());
-        }
-      } catch (e) {
-        emit(FavoriteMovieLoadError(e.toString()));
+    try {
+      final favoriteMovies = await _moviesRepository.getFavoriteMovies();
+
+      if (favoriteMovies.isNotEmpty) {
+        emit(FavoriteMovieLoaded(favoriteMovies));
+      } else {
+        emit(FavoriteMovieLoadedEmpty());
       }
-    });
+    } catch (e) {
+      emit(FavoriteMovieLoadError(e.toString()));
+    }
   }
 }
